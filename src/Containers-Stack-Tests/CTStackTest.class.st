@@ -39,6 +39,28 @@ CTStackTest >> stackClass [
 ]
 
 { #category : #tests }
+CTStackTest >> testCapacity [ 
+
+	| aStack |
+	aStack := self stackClass new.
+	self assert: aStack capacity equals: OrderedCollection new capacity. 
+	
+]
+
+{ #category : #tests }
+CTStackTest >> testCapacityWhenGrowing [
+
+	| aStack |
+	aStack := self stackClass new.
+	aStack 
+		push: 1; push: 2; push: 3; push: 4; push: 5; 
+		push: 6; push: 7; push: 8; push: 9 ; push: 10.
+	self assert: aStack capacity equals: OrderedCollection new capacity. 
+	aStack push: 11.
+	self deny: aStack capacity equals: OrderedCollection new capacity
+]
+
+{ #category : #tests }
 CTStackTest >> testCopyCreatesANewObject [
 
 	| copy |
@@ -138,6 +160,15 @@ CTStackTest >> testPop [
 	self assert: aStack isEmpty.
 
 
+]
+
+{ #category : #tests }
+CTStackTest >> testPreAllocateIntern [
+
+	| aStack |
+	aStack := self stackClass new: 1000.
+	self assert: aStack capacity equals: 1000. 
+	
 ]
 
 { #category : #tests }

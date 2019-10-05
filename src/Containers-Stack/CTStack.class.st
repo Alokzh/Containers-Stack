@@ -14,6 +14,21 @@ Class {
 	#category : #'Containers-Stack'
 }
 
+{ #category : #'instance creation' }
+CTStack class >> new: aNumber [
+
+	^ self basicNew
+			initializeWith: aNumber;
+			yourself
+			  
+]
+
+{ #category : #query }
+CTStack >> capacity [
+
+	^  elements capacity
+]
+
 { #category : #testing }
 CTStack >> ifEmpty: aBlock [
 	"Execute the given block, answering its value if the receiver is empty, otherwise answer the receiver."
@@ -52,6 +67,13 @@ CTStack >> initialize [
 
 	super initialize.
 	elements := OrderedCollection new
+]
+
+{ #category : #initialization }
+CTStack >> initializeWith: aNumber [
+	"Pre allocate the number of elements in the underlying data structure to avoid growing it multiple time when dealing with large stacks."
+	
+	elements := OrderedCollection new: aNumber
 ]
 
 { #category : #testing }
