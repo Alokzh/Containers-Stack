@@ -32,7 +32,7 @@ The following script installs Containers-Stack in Pharo.
 ```smalltalk
 Metacello new
   baseline: 'ContainersStack';
-  repository: 'github://Ducasse/Containers-Stack:v1.0/src';
+  repository: 'github://pharo-containers/Containers-Stack:v1.0/src';
   load.
 ```
 
@@ -43,5 +43,5 @@ Add the following code to your Metacello baseline or configuration
 ```smalltalk
 spec 
    baseline: 'ContainersStack' 
-   with: [ spec repository: 'github://Ducasse/Containers-Stack:v1.0/src' ].
+   with: [ spec repository: 'github://pharo-containers/Containers-Stack:v1.0/src' ].
 ```
