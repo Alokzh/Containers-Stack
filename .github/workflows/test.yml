@@ -20,7 +20,7 @@ jobs:
         id: smalltalkci
         with:
           smalltalk-version: Pharo64-8.0
-      - uses: hpi-swa/setup-smalltalkCI@v1
+      - uses: hpi-swa/setup-smalltalkCI@v2
         id: smalltalkci
         with:
           smalltalk-version: Pharo64-9.0
