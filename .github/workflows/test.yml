@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest ]
+        pharoversion: [Pharo64-8.0, Pharo64-9.0]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
@@ -20,10 +21,6 @@ jobs:
         id: smalltalkci
         with:
           smalltalk-version: Pharo64-8.0
-      - uses: hpi-swa/setup-smalltalkCI@v2
-        id: smalltalkci
-        with:
-          smalltalk-version: Pharo64-9.0
-      - run: smalltalkci -s ${{ steps.smalltalkci.outputs.smalltalk-version }}
+      - run: smalltalkci -s ${{ steps.smalltalkci.outputs.pharoversion }}
         shell: bash
         timeout-minutes: 15
