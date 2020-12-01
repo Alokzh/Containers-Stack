@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest ]
         pharoversion: [Pharo64-8.0, Pharo64-9.0]
