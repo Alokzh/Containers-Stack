@@ -1,3 +1,4 @@
+
 name: test
 
 env:
@@ -11,7 +12,6 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.platform }}
@@ -20,7 +20,7 @@ jobs:
       - uses: hpi-swa/setup-smalltalkCI@v1
         id: smalltalkci
         with:
-          smalltalk-version: Pharo64-80
+          smalltalk-version: Pharo64-8.0
       - run: smalltalkci -s ${{ steps.smalltalkci.outputs.smalltalk-version }}
         shell: bash
         timeout-minutes: 15
