@@ -1,5 +1,5 @@
 # Containers-Stack
-A dead stupid stack implementation, but one fully working :)
+A dead stupid stack implementation, but one fully working with super cool coverage:)
 
 [![Build Status](https://travis-ci.com/Ducasse/Containers-Stack.svg?branch=master)](https://travis-ci.com/Ducasse/Containers-Stack)
 [![Coverage Status](https://coveralls.io/repos/github//Ducasse/Containers-Stack/badge.svg?branch=master)](https://coveralls.io/github//Ducasse/Containers-Stack?branch=master)
