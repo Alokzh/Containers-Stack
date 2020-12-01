@@ -2,6 +2,8 @@
 A dead stupid stack implementation, but one fully working with super cool coverage:)
 
 
+![https://github.com/pharo-containers/Containers-Stack/workflows/test/badge.svg](https://github.com/pharo-containers/Containers-Stack/workflows/test/badge.svg)
+
 ## Example
 
 ``` 
