@@ -2,7 +2,7 @@
 A dead stupid stack implementation, but one fully working with super cool coverage:)
 
 
-![https://github.com/pharo-containers/Containers-Stack/workflows/test/badge.svg](https://github.com/pharo-containers/Containers-Stack/workflows/test/badge.svg)
+![https://github.com/pharo-containers/Containers-Stack/workflows/test/badge.svg](https://github.com/pharo-containers/Containers-Stack/workflows/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Example
