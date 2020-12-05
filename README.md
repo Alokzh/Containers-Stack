@@ -2,7 +2,7 @@
 A dead stupid stack implementation, but one fully working with super cool coverage:)
 
 
-![https://github.com/pharo-containers/Containers-Stack/actions](https://github.com/pharo-containers/Containers-Stack/workflows/PharoVersionMatrix/badge.svg)
+![https://github.com/pharo-containers/Containers-Stack/actions](https://github.com/pharo-containers/Containers-Stack/workflows/PharoVersion/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Example
