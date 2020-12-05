@@ -9,19 +9,20 @@ on:
       - master
 
 jobs:
-  build:
+   build:
+    runs-on: [ ubuntu-latest, mac-latest ]
     strategy:
-      fail-fast: false
       matrix:
-        platform: [ubuntu-latest, macos-latest ]
-        pharoversion: [Pharo64-8.0, Pharo64-9.0]
-    runs-on: ${{ matrix.platform }}
-    steps:
+        smalltalk: [ Pharo64-8.0, Pharo64-9.0 ]
+    name: ${{ matrix.smalltalk }}
+
+ steps:
       - uses: actions/checkout@v2
       - uses: hpi-swa/setup-smalltalkCI@v1
-        id: smalltalkci
         with:
-          smalltalk-version: pharoversion
-      - run: smalltalkci -s ${{ steps.smalltalkci.outputs.pharoversion }}
-        shell: bash
+          smalltalk-version: ${{ matrix.smalltalk }}
+      - name: Load Image and Run Tests
+        run: smalltalkci -s ${{ matrix.smalltalk }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         timeout-minutes: 15
