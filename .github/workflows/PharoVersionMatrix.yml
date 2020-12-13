@@ -7,9 +7,9 @@ on:
 
 jobs:
    build:
-    runs-on: [ ubuntu-latest, mac-latest ]
     strategy:
       matrix:
+        os: [ ubuntu-latest, mac-latest ]
         smalltalk: [ Pharo64-8.0, Pharo64-7.0 ]
     name: ${{ matrix.smalltalk }}
     steps:
