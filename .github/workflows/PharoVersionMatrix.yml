@@ -11,6 +11,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, mac-latest ]
         smalltalk: [ Pharo64-8.0, Pharo64-7.0 ]
+    runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }}
     steps:
       - uses: actions/checkout@v2
