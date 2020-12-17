@@ -4,7 +4,7 @@ A dead stupid stack implementation, but one fully working with super cool covera
 
 ![https://github.com/pharo-containers/Containers-Stack/actions](https://github.com/pharo-containers/Containers-Stack/workflows/Matrix/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
-
+[![Coverage Status](https://coveralls.io/repos/github/pharo-containers/Containers-Stack/badge.svg?branch=master)](https://coveralls.io/github/pharo-containers/Containers-Stack?branch=master)
 ## Example
 
 ``` 
