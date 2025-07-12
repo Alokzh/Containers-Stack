@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfContainersStack,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfContainersStack
+	#name : 'BaselineOfContainersStack',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfContainersStack',
+	#package : 'BaselineOfContainersStack'
 }
 
-{ #category : #baseline }
+{ #category : 'baselines' }
 BaselineOfContainersStack >> baseline: spec [ 
 	<baseline>
 

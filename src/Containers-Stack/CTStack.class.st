@@ -6,109 +6,110 @@ I implement a simple Stack.
 - #top answer the first element of the stack without removing it.
 "
 Class {
-	#name : #CTStack,
-	#superclass : #Object,
+	#name : 'CTStack',
+	#superclass : 'Object',
 	#instVars : [
-		'elements'
+		'elements',
+		'topIndex',
+		'capacity'
 	],
-	#category : #'Containers-Stack'
+	#category : 'Containers-Stack',
+	#package : 'Containers-Stack'
 }
 
-{ #category : #'instance creation' }
-CTStack class >> new: aNumber [
+{ #category : 'instance creation' }
+CTStack class >> new [
 
-	^ self basicNew
-			initializeWith: aNumber;
-			yourself
-			  
+	"Create a new stack with default capacity of 10"
+	
+	^ self new: 10
 ]
 
-{ #category : #query }
+{ #category : 'instance creation' }
+CTStack class >> new: anInteger [
+
+	anInteger < 1 ifTrue: [ self error: 'Capacity must be positive' ].
+	^ self basicNew
+		initializeWithCapacity: anInteger;
+		yourself
+]
+
+{ #category : 'accessing' }
+CTStack >> availableSpace [
+
+	^ capacity - self size
+]
+
+{ #category : 'accessing' }
 CTStack >> capacity [
 
-	^  elements capacity
+	^ capacity 
 ]
 
-{ #category : #testing }
-CTStack >> ifEmpty: aBlock [
-	"If the receiver is empty execute the given block, returning its value, otherwise return the receiver."
+{ #category : 'initialization' }
+CTStack >> initializeWithCapacity: anInteger [
 
+	capacity := anInteger.
+	elements := Array new: capacity.
+	topIndex := 0
+]
+
+{ #category : 'testing' }
+CTStack >> isEmpty [
+
+	"Return true if stack has no elements"
 	
-	"Note that the fact that this method returns its receiver in case the receiver is not empty allows one to write expressions like the following ones: self classifyMethodAs: (myProtocol ifEmpty: ['As yet unclassified'])"
-
-	^ elements ifEmpty: aBlock ifNotEmpty: [ self ]
+	^ topIndex = 0
 ]
 
-{ #category : #testing }
-CTStack >> ifEmpty: aBlockClosure ifNotEmpty: aBlockClosure2 [ 
-	"Evaluate emptyBlock if I'm empty, evalute notEmptyBlock otherwise"
-	"If the notEmptyBlock has an argument, execute it using the receiver as its argument"
+{ #category : 'testing' }
+CTStack >> isFull [
 
+		"Return true if stack is at maximum capacity"
 	
-	^ elements ifEmpty: aBlockClosure ifNotEmpty: aBlockClosure2
+	^ topIndex = capacity
 ]
 
-{ #category : #testing }
-CTStack >> ifNotEmpty: aBlock [
-	"Evaluate the given block with the receiver as its argument, returning its value
-	unless the receiver is empty, in which case return the receiver."
-
-
-	^ elements ifNotEmpty: aBlock ifEmpty: [ self ]
-]
-
-{ #category : #testing }
-CTStack >> ifNotEmpty: aBlockClosure ifEmpty: aBlockClosure2 [ 
-	"Evaluate emptyBlock if I'm empty, otherwise evaluate notEmptyBlock.
-	 If the notEmptyBlock has an argument, execute with the receiver as its argument"
-	
-	^ elements ifNotEmpty: aBlockClosure ifEmpty: aBlockClosure2
-]
-
-{ #category : #initialization }
-CTStack >> initialize [
-
-	super initialize.
-	elements := OrderedCollection new
-]
-
-{ #category : #initialization }
-CTStack >> initializeWith: aNumber [
-	"Pre allocate the number of elements in the underlying data structure to avoid growing it multiple time when dealing with large stacks."
-	
-	elements := OrderedCollection new: aNumber
-]
-
-{ #category : #testing }
-CTStack >> isEmpty [ 
-	
-	^ elements isEmpty
-]
-
-{ #category : #operations }
+{ #category : 'removing' }
 CTStack >> pop [
-	"Returns the first element and removes it from the receiver."
 
-	^ elements removeFirst 
+	| element |
+	self isEmpty ifTrue: [ self error: 'Stack is empty' ].
+	
+	element := elements at: topIndex.
+	elements at: topIndex put: nil.  "Prevent memory leaks"
+	topIndex := topIndex - 1.
+	^ element
 ]
 
-{ #category : #operations }
-CTStack >> push: anObject [ 
-	"Adds a new object of any kind on top of the receiver."
+{ #category : 'adding' }
+CTStack >> push: anObject [
+
+	self isFull ifTrue: [ self error: 'Stack is full' ].
 	
-	elements addFirst: anObject.
+	topIndex := topIndex + 1.
+	elements at: topIndex put: anObject.
 	^ anObject
 ]
 
-{ #category : #query }
-CTStack >> size [
+{ #category : 'removing' }
+CTStack >> removeAll [
 
-	^ elements size
+	1 to: topIndex do: [ :i | elements at: i put: nil ].
+	topIndex := 0
 ]
 
-{ #category : #operations }
+{ #category : 'accessing' }
+CTStack >> size [
+
+	^ topIndex 
+]
+
+{ #category : 'accessing' }
 CTStack >> top [
-	"Returns the first element of the receiver without removing it."
+
+	"Return the top element without removing it"
 	
-	^ elements first
+	self isEmpty ifTrue: [ self error: 'Stack is empty' ].
+	^ elements at: topIndex
 ]
