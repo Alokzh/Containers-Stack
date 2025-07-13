@@ -29,6 +29,28 @@ CTStackTest >> testAlternatingPushPop [
 ]
 
 { #category : 'tests' }
+CTStackTest >> testAsArray [
+
+	| result |
+	stack push: 'first'; push: 'second'; push: 'third'.
+	result := stack asArray.
+	
+	self assert: result equals: #('third' 'second' 'first').
+	"Elements from top to bottom"
+]
+
+{ #category : 'tests' }
+CTStackTest >> testAsOrderedCollection [
+
+	| result |
+	stack push: 'a'; push: 'b'; push: 'c'.
+	result := stack asOrderedCollection.
+	
+	self assert: result class equals: OrderedCollection.
+	self assert: result asArray equals: #('c' 'b' 'a').
+]
+
+{ #category : 'tests' }
 CTStackTest >> testAvailableSpace [
 
 	self assert: stack availableSpace equals: 5.
@@ -49,6 +71,29 @@ CTStackTest >> testCapacity [
 ]
 
 { #category : 'tests' }
+CTStackTest >> testCopyCreatesNewObject [
+
+	| copy |
+	stack
+		push: 'a';
+		push: 'b'.
+	copy := stack copy.
+	self deny: stack identicalTo: copy
+]
+
+{ #category : 'tests' }
+CTStackTest >> testCopyHasSameContents [
+
+	| copy |
+	stack push: 'first'; push: 'second'; push: 'third'.
+	copy := stack copy.
+	
+	self assert: copy size equals: stack size.
+	self assert: copy top equals: stack top.
+	self assert: copy capacity equals: stack capacity
+]
+
+{ #category : 'tests' }
 CTStackTest >> testDefaultStackCreation [
 
 	| defaultStack |
@@ -58,6 +103,18 @@ CTStackTest >> testDefaultStackCreation [
 	self assert: defaultStack isEmpty.
 	self assert: defaultStack size equals: 0.
 	self assert: defaultStack availableSpace equals: 10
+]
+
+{ #category : 'tests' }
+CTStackTest >> testDoIteration [
+
+	| elements |
+	stack push: 'first'; push: 'second'; push: 'third'.
+	elements := OrderedCollection new.
+	
+	stack do: [ :each | elements add: each ].
+	
+	self assert: elements asArray equals: #('third' 'second' 'first')
 ]
 
 { #category : 'tests' }
@@ -78,6 +135,45 @@ CTStackTest >> testIsFull [
 	self assert: stack isFull.
 	stack pop.
 	self deny: stack isFull
+]
+
+{ #category : 'tests' }
+CTStackTest >> testLIFOOrdering [
+
+	stack push: 'first'; push: 'second'; push: 'third'; push: 'fourth'.
+	
+	self assert: stack pop equals: 'fourth'.
+	self assert: stack pop equals: 'third'.
+	self assert: stack pop equals: 'second'.
+	self assert: stack pop equals: 'first'
+]
+
+{ #category : 'tests' }
+CTStackTest >> testLargeCapacityStack [
+
+	| largeStack |
+	largeStack := CTStack new: 1000000.
+	
+	1 to: 1000000 do: [ :i | largeStack push: i ].
+	self assert: largeStack isFull.
+	self assert: largeStack top equals: 1000000.
+	
+	1000000 to: 1 by: -1 do: [ :i |
+		self assert: largeStack pop equals: i
+	].
+	self assert: largeStack isEmpty
+]
+
+{ #category : 'tests' }
+CTStackTest >> testPopAllElements [
+
+	stack push: 'a'; push: 'b'; push: 'c'.
+	
+	stack pop; pop; pop.
+	
+	self assert: stack isEmpty.
+	self assert: stack size equals: 0.
+	self assert: stack availableSpace equals: 5
 ]
 
 { #category : 'tests' }
@@ -187,6 +283,44 @@ CTStackTest >> testPushToFullStack [
 	stack push: 'a'; push: 'b'; push: 'c'; push: 'd'; push: 'e'.
 	
 	self should: [ stack push: 'overflow' ] raise: Error
+]
+
+{ #category : 'removing' }
+CTStackTest >> testRemoveAll [
+
+	stack push: 'a'; push: 'b'; push: 'c'.
+	stack removeAll.
+	
+	self assert: stack isEmpty.
+	self assert: stack size equals: 0.
+	self assert: stack availableSpace equals: 5
+]
+
+{ #category : 'tests' }
+CTStackTest >> testRemoveAllOnEmptyStack [
+
+	stack removeAll.
+	
+	self assert: stack isEmpty.
+	self assert: stack size equals: 0
+]
+
+{ #category : 'tests' }
+CTStackTest >> testSearchExistingElement [
+
+	stack push: 'a'; push: 'b'; push: 'c'; push: 'b'.
+	
+	self assert: (stack search: 'b') equals: 1. "Top element"
+	self assert: (stack search: 'c') equals: 2.
+	self assert: (stack search: 'a') equals: 4. "Bottom element"
+]
+
+{ #category : 'tests' }
+CTStackTest >> testSearchNonExistentElement [
+
+	stack push: 'a'; push: 'b'; push: 'c'.
+	
+	self assert: (stack search: 'x') equals: -1
 ]
 
 { #category : 'tests' }

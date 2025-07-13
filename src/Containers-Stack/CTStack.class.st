@@ -34,6 +34,28 @@ CTStack class >> new: anInteger [
 		yourself
 ]
 
+{ #category : 'converting' }
+CTStack >> asArray [
+
+	| result |
+	self isEmpty ifTrue: [ ^ #() ].
+	
+	result := Array new: self size.
+	1 to: self size do: [ :i |
+		result at: i put: (elements at: topIndex - i + 1)
+	].
+	^ result
+]
+
+{ #category : 'converting' }
+CTStack >> asOrderedCollection [
+
+	| result |
+	result := OrderedCollection new: self size.
+	self do: [ :each | result add: each ].
+	^ result
+]
+
 { #category : 'accessing' }
 CTStack >> availableSpace [
 
@@ -44,6 +66,30 @@ CTStack >> availableSpace [
 CTStack >> capacity [
 
 	^ capacity 
+]
+
+{ #category : 'copying' }
+CTStack >> copy [
+
+	
+	| copy |
+	copy := self class new: capacity.
+	self isEmpty ifTrue: [ ^ copy ].
+	
+	1 to: topIndex do: [ :i |
+		copy push: (elements at: i)
+	].
+	^ copy
+]
+
+{ #category : 'enumerating' }
+CTStack >> do: aBlock [ 
+
+	self isEmpty ifTrue: [ ^ self ].
+	
+	topIndex to: 1 by: -1 do: [ :i |
+		aBlock value: (elements at: i)
+	]
 ]
 
 { #category : 'initialization' }
@@ -92,11 +138,35 @@ CTStack >> push: anObject [
 	^ anObject
 ]
 
+{ #category : 'showing' }
+CTStack >> pushAll: aCollection [
+
+	aCollection do: [ :each | self push: each ].
+	^ aCollection isEmpty ifFalse: [ aCollection last ] ifTrue: [ nil ]
+]
+
 { #category : 'removing' }
 CTStack >> removeAll [
 
 	1 to: topIndex do: [ :i | elements at: i put: nil ].
 	topIndex := 0
+]
+
+{ #category : 'accessing' }
+CTStack >> search: anObject [
+
+	"Return the 1-based position of anObject from the top of the stack.
+	Return -1 if the object is not found.
+	The top element is at position 1."
+	
+	self isEmpty ifTrue: [ ^ -1 ].
+	
+	topIndex to: 1 by: -1 do: [ :i |
+		(elements at: i) = anObject ifTrue: [ 
+			^ topIndex - i + 1 
+		]
+	].
+	^ -1
 ]
 
 { #category : 'accessing' }
