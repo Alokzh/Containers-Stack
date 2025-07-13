@@ -1,26 +1,19 @@
 # Containers-Stack
-A dead stupid stack implementation, but one fully working with super cool coverage:)
+A High-performance, Array based Stack implementation providing efficient LIFO (Last In, First Out) operations with fixed capacity and proper bounds checking.
 
+![Pharo Version](https://img.shields.io/badge/Pharo-10+-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-![https://github.com/pharo-containers/Containers-Stack/actions](https://github.com/pharo-containers/Containers-Stack/workflows/Matrix/badge.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
-[![Coverage Status](https://coveralls.io/repos/github/pharo-containers/Containers-Stack/badge.svg?branch=master)](https://coveralls.io/github/pharo-containers/Containers-Stack?branch=master)
-## Example
+## What is a Stack?
 
-``` 
-| aStack |
- aStack := CTStack new.
- aStack push: 'a'.
- aStack size >>> 1.
- aStack push: 'b'.
- aStack size >>> 2.
- aStack top >>> 'b'.
- aStack size >>> 2.
- aStack pop  >>> 'b'.
- aStack size >>> 1.
- aStack pop >>> 'a'.
- aStack size >>> 0. 
- ```
+A Stack is a linear data structure that follows the LIFO (Last In, First Out) principle. Elements are added and removed from the same end, called the "top" of the stack. Think of it like a stack of plates - you can only add or remove plates from the top.
+
+### Key Benefits
+- **O(1) Performance**: Constant time push, pop, and top operations
+- **Fixed Memory Usage**: Array-based implementation with bounded capacity
+- **Memory Safe**: Automatic cleanup prevents memory leaks
+- **Simple API**: Clean, intuitive interface following standard conventions
+- **Robust Error Handling**: Proper stack overflow and underflow protection
 
 ## Loading 
 The following script installs Containers-Stack in Pharo.
@@ -28,7 +21,7 @@ The following script installs Containers-Stack in Pharo.
 ```smalltalk
 Metacello new
   baseline: 'ContainersStack';
-  repository: 'github://pharo-containers/Containers-Stack:v1.0/src';
+  repository: 'github://pharo-containers/Containers-Stack/src';
   load.
 ```
 
@@ -39,5 +32,33 @@ Add the following code to your Metacello baseline or configuration
 ```smalltalk
 spec 
    baseline: 'ContainersStack' 
-   with: [ spec repository: 'github://pharo-containers/Containers-Stack:v1.0/src' ].
+   with: [ spec repository: 'github://pharo-containers/Containers-Stack/src' ].
 ```
+
+## Quick Start
+
+```smalltalk
+"Create a stack with capacity of 5"
+stack := CTStack new: 5.
+
+"Push elements"
+stack push: 'first'.
+stack push: 'second'.
+stack push: 'third'.
+
+"Check top element without removing"
+stack top.           "Returns 'third'"
+stack size.          "Returns 3"
+
+"Pop elements (LIFO order)"
+stack pop.           "Returns 'third'"
+stack pop.           "Returns 'second'"  
+stack pop.           "Returns 'first'"
+
+"Stack is now empty"
+stack isEmpty.       "Returns true"
+```
+
+## Contributing
+
+This is part of the Pharo Containers project. Feel free to contribute by implementing additional methods, improving tests, or enhancing documentation.
