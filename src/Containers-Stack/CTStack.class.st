@@ -1,8 +1,7 @@
 "
-I implement a simple Stack. 
-
-- #push: adds a new object of any kind on top of the stack. 
-- #pop returns the first element and remove it from the stack. 
+I implement a simple Stack that grows dynamically as needed.
+- #push: adds a new object of any kind on top of the stack.
+- #pop returns the first element and remove it from the stack.
 - #top answer the first element of the stack without removing it.
 "
 Class {
@@ -10,8 +9,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'elements',
-		'topIndex',
-		'capacity'
+		'topIndex'
 	],
 	#category : 'Containers-Stack',
 	#package : 'Containers-Stack'
@@ -28,10 +26,10 @@ CTStack class >> new [
 { #category : 'instance creation' }
 CTStack class >> new: anInteger [
 
-	anInteger < 1 ifTrue: [ self error: 'Capacity must be positive' ].
+	anInteger < 0 ifTrue: [ self error: 'Initial capacity cannot be negative' ].
 	^ self basicNew
-		initializeWithCapacity: anInteger;
-		yourself
+		  initializeWithCapacity: anInteger;
+		  yourself
 ]
 
 { #category : 'converting' }
@@ -57,29 +55,21 @@ CTStack >> asOrderedCollection [
 ]
 
 { #category : 'accessing' }
-CTStack >> availableSpace [
-
-	^ capacity - self size
-]
-
-{ #category : 'accessing' }
 CTStack >> capacity [
 
-	^ capacity 
+	^ elements size
 ]
 
 { #category : 'copying' }
 CTStack >> copy [
 
 	
-	| copy |
-	copy := self class new: capacity.
-	self isEmpty ifTrue: [ ^ copy ].
-	
+	| newStack |
+	newStack := self class new: self capacity.
 	1 to: topIndex do: [ :i |
-		copy push: (elements at: i)
+		newStack push: (elements at: i)
 	].
-	^ copy
+	^ newStack
 ]
 
 { #category : 'enumerating' }
@@ -92,11 +82,28 @@ CTStack >> do: aBlock [
 	]
 ]
 
+{ #category : 'private' }
+CTStack >> grow [
+
+	| newElements newCapacity |
+	
+	"Double the size. If the current size is 0, start with a default size."
+	newCapacity := (self capacity = 0 ifTrue: [ 10 ] ifFalse: [ self capacity * 2 ]).
+	newElements := Array new: newCapacity.
+	
+	newElements
+		replaceFrom: 1
+		to: self size
+		with: elements
+		startingAt: 1.
+		
+	elements := newElements
+]
+
 { #category : 'initialization' }
 CTStack >> initializeWithCapacity: anInteger [
 
-	capacity := anInteger.
-	elements := Array new: capacity.
+	elements := Array new: anInteger.
 	topIndex := 0
 ]
 
@@ -108,12 +115,11 @@ CTStack >> isEmpty [
 	^ topIndex = 0
 ]
 
-{ #category : 'testing' }
+{ #category : 'private' }
 CTStack >> isFull [
+	"Return true if stack is at maximum capacity"
 
-		"Return true if stack is at maximum capacity"
-	
-	^ topIndex = capacity
+	^ topIndex = self capacity
 ]
 
 { #category : 'removing' }
@@ -131,18 +137,18 @@ CTStack >> pop [
 { #category : 'adding' }
 CTStack >> push: anObject [
 
-	self isFull ifTrue: [ self error: 'Stack is full' ].
-	
+	self isFull ifTrue: [ self grow ].
+
 	topIndex := topIndex + 1.
 	elements at: topIndex put: anObject.
-	^ anObject
+	^ self
 ]
 
 { #category : 'showing' }
 CTStack >> pushAll: aCollection [
 
-	aCollection do: [ :each | self push: each ].
-	^ aCollection isEmpty ifFalse: [ aCollection last ] ifTrue: [ nil ]
+aCollection do: [ :each | self push: each ].
+	^ self
 ]
 
 { #category : 'removing' }
