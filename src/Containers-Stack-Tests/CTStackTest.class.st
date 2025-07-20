@@ -98,6 +98,22 @@ CTStackTest >> testCopyHasSameContents [
 ]
 
 { #category : 'tests' }
+CTStackTest >> testCopyIsIndependent [
+
+	| copy |
+	stack push: 'a'; push: 'b'.
+	copy := stack copy.
+
+	"Now, modify the original stack"
+	stack pop.
+	stack push: 'c'.
+	
+	self assert: copy size equals: 2.
+	self assert: copy top equals: 'b'.
+	self deny: copy top equals: stack top.
+]
+
+{ #category : 'tests' }
 CTStackTest >> testDefaultStackCreation [
 
 	| defaultStack |
@@ -273,7 +289,7 @@ CTStackTest >> testPushSingleElement [
 	self assert: stack top equals: 'first'
 ]
 
-{ #category : 'removing' }
+{ #category : 'tests' }
 CTStackTest >> testRemoveAll [
 
 	stack
@@ -283,7 +299,12 @@ CTStackTest >> testRemoveAll [
 	stack removeAll.
 
 	self assert: stack isEmpty.
-	self assert: stack size equals: 0
+	self assert: stack size equals: 0.
+
+	stack push: 'd'.
+	self deny: stack isEmpty.
+	self assert: stack size equals: 1.
+	self assert: stack top equals: 'd'.
 ]
 
 { #category : 'tests' }
