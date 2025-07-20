@@ -1,5 +1,5 @@
 # Containers-Stack
-A High-performance, Array based Stack implementation providing efficient LIFO (Last In, First Out) operations with fixed capacity and proper bounds checking.
+A High-performance, Array-based Stack implementation providing efficient LIFO (Last In, First Out) operations with dynamic growth and proper bounds checking.
 
 ![Pharo Version](https://img.shields.io/badge/Pharo-10+-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -10,10 +10,9 @@ A Stack is a linear data structure that follows the LIFO (Last In, First Out) pr
 
 ### Key Benefits
 - **O(1) Performance**: Constant time push, pop, and top operations
-- **Fixed Memory Usage**: Array-based implementation with bounded capacity
-- **Memory Safe**: Automatic cleanup prevents memory leaks
+- **Dynamic Growth**: Automatically expands capacity when needed - no size limits
 - **Simple API**: Clean, intuitive interface following standard conventions
-- **Robust Error Handling**: Proper stack overflow and underflow protection
+- **Robust Error Handling**: Proper stack underflow protection
 
 ## Loading 
 The following script installs Containers-Stack in Pharo.
@@ -38,21 +37,19 @@ spec
 ## Quick Start
 
 ```smalltalk
-"Create a stack with capacity of 5"
-stack := CTStack new: 5.
+"Create a stack (grows automatically when needed)"
+stack := CTStack new: 2.
+stack capacity.      "Returns 2"
 
-"Push elements"
-stack push: 'first'.
-stack push: 'second'.
-stack push: 'third'.
-
-"Check top element without removing"
-stack top.           "Returns 'third'"
+"Push elements - grows beyond initial capacity"
+stack push: 'first'; push: 'second'; push: 'third'.
+stack capacity.      "Returns 4 (doubled automatically)"
 stack size.          "Returns 3"
 
-"Pop elements (LIFO order)"
+"LIFO operations"
+stack top.           "Returns 'third'"
 stack pop.           "Returns 'third'"
-stack pop.           "Returns 'second'"  
+stack pop.           "Returns 'second'"
 stack pop.           "Returns 'first'"
 
 "Stack is now empty"
